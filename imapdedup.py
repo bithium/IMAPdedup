@@ -168,8 +168,7 @@ def print_message_info(parsed_message):
     print("")
 
 
-# This actually does the work
-def process(options, mboxes):
+def connect(options):
     if options.process:
         serverclass = imaplib.IMAP4_stream
     elif options.ssl:
@@ -201,6 +200,12 @@ def process(options, mboxes):
     except:
         sys.stderr.write("\nError: Login failed\n")
         sys.exit(1)
+    return server
+
+
+# This actually does the work
+def process(options, mboxes):
+    server = connect(options)
 
     # List mailboxes option
     if options.just_list:
