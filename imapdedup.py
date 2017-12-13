@@ -230,12 +230,17 @@ def process(options, mboxes):
             print("There are %d messages in %s." % (int(msgs), mbox))
 
             # Check how many messages are already marked 'deleted'...
-            deleted = check_response(server.search(None, 'DELETED'))[0].split()
-            numdeleted = len(deleted)
+            deleted = check_response(server.search(None, 'DELETED'))[0]
+            numdeleted = 0
+            if deleted != None:
+                numdeleted = len(deleted.split())
             print("%s message(s) currently marked as deleted in %s" % (numdeleted or "No", mbox))
 
             # ...and get a list of the ones that aren't deleted. That's what we'll use.
-            msgnums = check_response(server.search(None, 'UNDELETED'))[0].split()
+            undeleted = check_response(server.search(None, 'UNDELETED'))[0]
+            msgnums = []
+            if undeleted != None:
+                msgnums = undeleted.split()
             print("%s others in %s" % (len(msgnums), mbox))
 
             chunkSize = 100
