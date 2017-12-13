@@ -314,10 +314,14 @@ def process(options, mboxes):
                         if options.verbose:
                             print("Batch starting at item %d marked." % i)
                     print("Confirming new numbers...")
-                    deleted = check_response(server.search(None, 'DELETED'))[0].split()
-                    numdeleted = len(deleted)
-                    undeleted = check_response(server.search(None, 'UNDELETED'))[0].split()
-                    numundel = len(undeleted)
+                    deleted = check_response(server.search(None, 'DELETED'))[0]
+                    numdeleted = 0
+                    if deleted != None:
+                        numdeleted = len(deleted.split())
+                    undeleted = check_response(server.search(None, 'UNDELETED'))[0]
+                    numundel = 0
+                    if undeleted != None:
+                        numundel = len(undeleted.split())
                     print("There are now %s messages marked as deleted and %s others in %s." % (numdeleted, numundel, mbox))
         if not options.no_close:
             server.close()
